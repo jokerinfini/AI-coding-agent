@@ -1,9 +1,21 @@
 import { useEffect } from 'react';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/lib/queryClient';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ChatLayout } from '@/components/ChatLayout';
 import { useChatStore } from '@/store/chatStore';
 import './App.css';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      retry: 1,
+    },
+  },
+});
 
 function App() {
   const { setTheme } = useChatStore();
