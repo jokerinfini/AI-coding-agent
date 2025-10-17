@@ -3,7 +3,7 @@ import { ChatHeader } from './ChatHeader';
 import { ChatMessages } from './ChatMessages';
 import { ChatInput } from './ChatInput';
 import { ArtifactSidebar } from './ArtifactSidebar';
-import { useChatStore } from '../store/chatStore';
+import { useChatStore } from '@/store/chatStore';
 
 export const ChatLayout: React.FC = () => {
   const { getThemeColors, layoutMode } = useChatStore();
