@@ -14,7 +14,7 @@ app = FastAPI(
 )
 
 # Configure CORS
-cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,https://*.vercel.app").split(",")
+cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,https://*.vercel.app,https://*.railway.app").split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
