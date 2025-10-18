@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { X, Settings, Key, Rocket, Save } from 'lucide-react';
 
 interface SettingsDialogProps {
@@ -50,6 +50,10 @@ export const SettingsDialog: React.FC<SettingsDialogProps> = ({ open, onOpenChan
           boxShadow: `0 10px 30px rgba(0, 0, 0, 0.08)`
         }}
       >
+        <DialogTitle className="sr-only">Settings</DialogTitle>
+        <DialogDescription className="sr-only">
+          Configure your API keys for Gemini and e2b.dev services
+        </DialogDescription>
         {/* Close Button */}
         <button
           onClick={() => onOpenChange(false)}
