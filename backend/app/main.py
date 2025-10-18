@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 from dotenv import load_dotenv
 import os
 from app.api.chat import router as chat_router
@@ -15,13 +16,33 @@ app = FastAPI(
 
 # Configure CORS
 cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,https://*.vercel.app,https://*.railway.app").split(",")
+print(f"CORS Origins: {cors_origins}")  # Debug log
+
+# For development, allow all origins temporarily
+if os.getenv("ENVIRONMENT") == "development":
+    cors_origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
+
+# Add manual CORS handler for preflight requests
+@app.options("/{path:path}")
+async def options_handler(request: Request, path: str):
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Credentials": "true",
+        }
+    )
 
 # Mount routers
 app.include_router(chat_router)
