@@ -14,8 +14,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configure CORS - Allow all origins for now to fix CORS issues
-cors_origins = ["*"]
+# Configure CORS - Allow Railway domains
+cors_origins = [
+    "http://localhost:5173",
+    "https://*.vercel.app", 
+    "https://*.railway.app",
+    "https://*.up.railway.app"
+]
 print(f"CORS Origins: {cors_origins}")  # Debug log
 
 app.add_middleware(
