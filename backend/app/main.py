@@ -27,20 +27,34 @@ app.add_middleware(
     allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
+    allow_headers=["content-type", "x-gemini-api-key", "x-e2b-api-key", "authorization"],
     expose_headers=["*"],
 )
 
 # Add manual CORS handler for preflight requests
-@app.options("/{path:path}")
-async def options_handler(request: Request, path: str):
+@app.options("/api/chat/stream")
+async def options_handler():
     return Response(
         status_code=200,
         headers={
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Headers": "content-type, x-gemini-api-key, x-e2b-api-key",
             "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Max-Age": "600",
+        }
+    )
+
+@app.options("/api/sandbox/execute")
+async def options_sandbox_handler():
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "content-type, x-gemini-api-key, x-e2b-api-key",
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Max-Age": "600",
         }
     )
 
